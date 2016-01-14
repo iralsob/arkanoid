@@ -26,12 +26,8 @@
               this.directionTop = 1;
             }
             if(this.top == height) {
-              this.directionTop = -1;
               alert('Вы проиграли!');
-              this.left =left;
-              this.top= top;
-              this.directionLeft = directionLeft;
-              this.directionTop = directionTop;
+              startPosition();
             }
             if(this.top == (height - 70)) {
               if (this.left >= player.offsetLeft && this.left <= player.offsetLeft+90 ) {
@@ -52,6 +48,17 @@
         ballBottom = new Ball(1,height-40,1,-1,document.getElementById('ballBottom'));
         topInterval = setInterval( function() { ballTop.move.call(ballTop) } , 10);
         bottomInterval =  setInterval( function() { ballBottom.move.call(ballBottom) } , 10);
+
+        function startPosition() {
+          ballTop.left = 0;
+          ballTop.top = 0;
+          ballTop.directionLeft = 1;
+          ballTop.directionTop = 1;
+          ballBottom.left = 1;
+          ballBottom.top = height-40;
+          ballBottom.directionLeft = 1;
+          ballBottom.directionTop = -1;
+        }
 
         document.onkeydown = function (e) {
           e = e || window.event;
