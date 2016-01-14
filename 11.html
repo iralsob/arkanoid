@@ -1,104 +1,104 @@
 <html>
-	<head>
-		<meta charset="utf-8">
-		<script>
-			var ball, ballTop, ballBottom, topInterval, bottomInterval;
-			function loadPage() {
-				var player = document.getElementById('player');
-				player.style.left = player.offsetLeft;
-				var width = document.body.clientWidth;
-				var height = document.body.clientHeight;
-				var step = 60;
+  <head>
+    <meta charset="utf-8">
+    <script>
+      var ball, ballTop, ballBottom, topInterval, bottomInterval;
+      function loadPage() {
+        var player = document.getElementById('player');
+        player.style.left = player.offsetLeft;
+        var width = document.body.clientWidth;
+        var height = document.body.clientHeight;
+        var step = 60;
 
-				function Ball(left, top, directionLeft, directionTop, html) {
-					this.left = left;
-					this.top = top;
-					this.directionLeft = directionLeft;
-					this.directionTop = directionTop;
-					this.move = function(){
-						if(this.left == 0) {
-							this.directionLeft = 1;
-						}
-						if(this.left == width) {
-							this.directionLeft = -1;
-						}
-						if(this.top == 0) {
-							this.directionTop = 1;
-						}
-						if(this.top == height) {
-							this.directionTop = -1;
-							alert('Вы проиграли!');
-							this.left =left;
-							this.top= top;
-							this.directionLeft = directionLeft;
-							this.directionTop = directionTop;
-						}
-						if(this.top == (height - 70)) {
-							if (this.left >= player.offsetLeft && this.left <= player.offsetLeft+90 ) {
-								this.directionTop = -1;
-							}
-						}
-						this.left += this.directionLeft;
-						this.top += this.directionTop;
-						this.show();
-					};
-					this.show = function(){
-						html.style.left = this.left +'px';
-						html.style.top = this.top +'px';
-					};
-				}
+        function Ball(left, top, directionLeft, directionTop, html) {
+          this.left = left;
+          this.top = top;
+          this.directionLeft = directionLeft;
+          this.directionTop = directionTop;
+          this.move = function(){
+            if(this.left == 0) {
+              this.directionLeft = 1;
+            }
+            if(this.left == width) {
+              this.directionLeft = -1;
+            }
+            if(this.top == 0) {
+              this.directionTop = 1;
+            }
+            if(this.top == height) {
+              this.directionTop = -1;
+              alert('Вы проиграли!');
+              this.left =left;
+              this.top= top;
+              this.directionLeft = directionLeft;
+              this.directionTop = directionTop;
+            }
+            if(this.top == (height - 70)) {
+              if (this.left >= player.offsetLeft && this.left <= player.offsetLeft+90 ) {
+                this.directionTop = -1;
+              }
+            }
+            this.left += this.directionLeft;
+            this.top += this.directionTop;
+            this.show();
+          };
+          this.show = function(){
+            html.style.left = this.left +'px';
+            html.style.top = this.top +'px';
+          };
+        }
 
-				ballTop = new Ball(0,0,1,1,document.getElementById('ballTop'));
-				ballBottom = new Ball(1,height-40,1,-1,document.getElementById('ballBottom'));
-				topInterval = setInterval( function() { ballTop.move.call(ballTop) } , 10);
-				bottomInterval =  setInterval( function() { ballBottom.move.call(ballBottom) } , 10);
+        ballTop = new Ball(0,0,1,1,document.getElementById('ballTop'));
+        ballBottom = new Ball(1,height-40,1,-1,document.getElementById('ballBottom'));
+        topInterval = setInterval( function() { ballTop.move.call(ballTop) } , 10);
+        bottomInterval =  setInterval( function() { ballBottom.move.call(ballBottom) } , 10);
 
-				
-				document.onkeydown = function (e) {
-					e = e || window.event;
-					var currentPosition = player.offsetLeft;
-					if (currentPosition >= step && e.keyCode === 37) {
-								player.style.left = currentPosition - step +'px';
-					} else if (e.keyCode === 37) {
-						player.style.left = 0 +'px';
-					}
-					if (currentPosition <= width - player.offsetWidth - step && e.keyCode === 39) {
-								player.style.left = currentPosition + step +'px';
-					} else if (e.keyCode === 39) {
-						player.style.left = width - player.offsetWidth +'px';
-					}
-					
-					return false;
-				}
-			}
-		</script>
-		<style>
-			body {
-				margin:0;
-			}
-			.ball {
-				border-radius: 50%;
-				background: grey;
-				display: inline-block;
-				position: absolute;
-				border: 2px solid #000;
-				width: 40px;
-				height: 40px;
-			}
-			#player {
-				background: black;
-				display: inline-block;
-				width: 90px;
-				height: 30px;
-				position: absolute;
-				bottom: 0;
-				left:50%;
-			}
-		</style>
-	</head>
-	<body onload="loadPage()">
-		<div id="ballTop" class="ball"></div>
-		<div id="ballBottom" class="ball"></div>
-		<div id="player"></div>
-	</body>
+        
+        document.onkeydown = function (e) {
+          e = e || window.event;
+          var currentPosition = player.offsetLeft;
+          if (currentPosition >= step && e.keyCode === 37) {
+                player.style.left = currentPosition - step +'px';
+          } else if (e.keyCode === 37) {
+            player.style.left = 0 +'px';
+          }
+          if (currentPosition <= width - player.offsetWidth - step && e.keyCode === 39) {
+                player.style.left = currentPosition + step +'px';
+          } else if (e.keyCode === 39) {
+            player.style.left = width - player.offsetWidth +'px';
+          }
+          
+          return false;
+        }
+      }
+    </script>
+    <style>
+      body {
+        margin:0;
+      }
+      .ball {
+        border-radius: 50%;
+        background: grey;
+        display: inline-block;
+        position: absolute;
+        border: 2px solid #000;
+        width: 40px;
+        height: 40px;
+      }
+      #player {
+        background: black;
+        display: inline-block;
+        width: 90px;
+        height: 30px;
+        position: absolute;
+        bottom: 0;
+        left:50%;
+      }
+    </style>
+  </head>
+  <body onload="loadPage()">
+    <div id="ballTop" class="ball"></div>
+    <div id="ballBottom" class="ball"></div>
+    <div id="player"></div>
+  </body>
 </html>
