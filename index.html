@@ -2,16 +2,17 @@
   <head>
     <meta charset="utf-8">
     <script>
-      var ball, ballTop, ballBottom, topInterval, bottomInterval;
+      var ball, ballTop, ballBottom, topInterval, bottomInterval, ballDiam;
+      var player, playerWidth, playerHeight;
       function loadPage() {
         var width = document.body.clientWidth;
         var height = document.body.clientHeight;
-        var ballDiam = 40;
-        var playerWidth = 290;
-        var playerHeight = 30;
         var step = 60;
+        ballDiam = 40;
+        playerWidth = 290;
+        playerHeight = 30;
 
-        var player = document.getElementById('player');
+        player = document.getElementById('player');
         player.style.left = player.offsetLeft;
         player.style.width = playerWidth+'px';
         player.style.height = playerHeight+'px';
