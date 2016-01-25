@@ -4,7 +4,7 @@
     <script>
       var ball, ballTop, ballBottom, topInterval, bottomInterval, ballDiam;
       var player, playerWidth, playerHeight;
-      function loadPage() {
+      window.onload = function() {
         var width = document.body.clientWidth;
         var height = document.body.clientHeight;
         var step = 60;
@@ -26,12 +26,10 @@
         ballBottom = new Ball(1, height-ballDiam, 1, -1, document.getElementById('ballBottom'));
         topInterval = setInterval( function() { ballTop.move.call(ballTop) } , 10);
         bottomInterval =  setInterval( function() { ballBottom.move.call(ballBottom) } , 10);
+        ballTop.moveOnStart();
+        ballBottom.moveOnStart();
 
         function Ball(left, top, directionLeft, directionTop, html) {
-          this.left = left;
-          this.top = top;
-          this.directionLeft = directionLeft;
-          this.directionTop = directionTop;
           this.move = function(){
             if(this.left == 0) {
               this.directionLeft = 1;
@@ -44,7 +42,8 @@
             }
             if(this.top == height) {
               alert('Вы проиграли!');
-              startPosition();
+              ballTop.moveOnStart();
+              ballBottom.moveOnStart();
             }
             if(this.top == (height - playerHeight - ballDiam)) {
               if (this.left >= player.offsetLeft-ballDiam/2 && this.left <= player.offsetLeft+playerWidth+ballDiam/2 ) {
@@ -61,15 +60,13 @@
           };
         }
 
-        function startPosition() {
-          ballTop.left = 0;
-          ballTop.top = 0;
-          ballTop.directionLeft = 1;
-          ballTop.directionTop = 1;
-          ballBottom.left = 1;
-          ballBottom.top = height-ballDiam;
-          ballBottom.directionLeft = 1;
-          ballBottom.directionTop = -1;
+        Ball.prototype = {
+          moveOnStart: function(){
+            this.left = left;
+            this.top = top;
+            this.directionLeft = directionLeft;
+            this.directionTop = directionTop;
+          }
         }
 
         document.onkeydown = function (e) {
@@ -110,7 +107,7 @@
       }
     </style>
   </head>
-  <body onload="loadPage()">
+  <body>
     <div id="ballTop" class="ball"></div>
     <div id="ballBottom" class="ball"></div>
     <div id="player"></div>
