@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8">
     <script>
-      var ball, ballTop, ballBottom, topInterval, bottomInterval, ballDiam;
+      var ball, ballTop, ballBottom, topInterval, bottomInterval, ballDiam, ballTopDom, ballBottomDom;
       var player, playerWidth, playerHeight;
       window.onload = function() {
         var width = document.body.clientWidth;
@@ -17,20 +17,17 @@
         player.style.width = playerWidth+'px';
         player.style.height = playerHeight+'px';
 
-        document.getElementById('ballTop').style.width = ballDiam +'px';
-        document.getElementById('ballBottom').style.width = ballDiam +'px';
-        document.getElementById('ballTop').style.height = ballDiam +'px';
-        document.getElementById('ballBottom').style.height = ballDiam +'px';
+        ballTopDom = document.getElementById('ballTop');
+        ballBottomDom = document.getElementById('ballBottom');
+        ballTopDom.style.width = ballDiam +'px';
+        ballBottomDom.style.width = ballDiam +'px';
+        ballTopDom.style.height = ballDiam +'px';
+        ballBottomDom.style.height = ballDiam +'px';
 
-        ballTop = new Ball(0, 0, 1, 1, document.getElementById('ballTop'));
-        ballBottom = new Ball(1, height-ballDiam, 1, -1, document.getElementById('ballBottom'));
-        topInterval = setInterval( function() { ballTop.move.call(ballTop) } , 10);
-        bottomInterval =  setInterval( function() { ballBottom.move.call(ballBottom) } , 10);
-        ballTop.moveOnStart();
-        ballBottom.moveOnStart();
+        function Ball(left, top, directionLeft, directionTop, html) {}
 
-        function Ball(left, top, directionLeft, directionTop, html) {
-          this.move = function(){
+        Ball.prototype = {
+          move: function(html){
             if(this.left == 0) {
               this.directionLeft = 1;
             }
@@ -42,8 +39,8 @@
             }
             if(this.top == height) {
               alert('Вы проиграли!');
-              ballTop.moveOnStart();
-              ballBottom.moveOnStart();
+              ballTop.moveOnStart(0,0,1,1);
+              ballBottom.moveOnStart(1, height-ballDiam, 1, -1);
             }
             if(this.top == (height - playerHeight - ballDiam)) {
               if (this.left >= player.offsetLeft-ballDiam/2 && this.left <= player.offsetLeft+playerWidth+ballDiam/2 ) {
@@ -52,22 +49,30 @@
             }
             this.left += this.directionLeft;
             this.top += this.directionTop;
-            this.show();
-          };
-          this.show = function(){
+            this.show(html);
+          },
+          show: function(html){
             html.style.left = this.left +'px';
             html.style.top = this.top +'px';
-          };
-        }
-
-        Ball.prototype = {
-          moveOnStart: function(){
+          },
+          moveOnStart: function(left, top, directionLeft, directionTop){
             this.left = left;
             this.top = top;
             this.directionLeft = directionLeft;
             this.directionTop = directionTop;
           }
         }
+
+        ballTop = new Ball(0, 0, 1, 1, ballTopDom);
+        ballBottom = new Ball(1, height-ballDiam, 1, -1, ballBottomDom);
+        topInterval = setInterval( function() {
+          ballTop.move(ballTopDom);
+        } , 10);
+        bottomInterval =  setInterval( function() {
+          ballBottom.move(ballBottomDom);
+        } , 10);
+        ballTop.moveOnStart(0,0,1,1);
+        ballBottom.moveOnStart(1, height-ballDiam, 1, -1);
 
         document.onkeydown = function (e) {
           e = e || window.event;
