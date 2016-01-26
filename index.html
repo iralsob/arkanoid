@@ -14,52 +14,49 @@
         player = document.getElementById(playerId);
         player.style.width = playerWidth +'px';
         player.style.height = playerHeight +'px';
-
       }
 
       function Ball(ballId, left, top, directionLeft, directionTop) {
         ballDiam = 40;
 
-        ball = document.getElementById(ballId);
-        ball.style.width = ballDiam +'px';
-        ball.style.height = ballDiam +'px';
+        this.ball = document.getElementById(ballId);
+        this.ball.style.width = ballDiam +'px';
+        this.ball.style.height = ballDiam +'px';
 
         this.moveOnStart(left, top, directionLeft, directionTop);
 
-        that = this;
-        this.interval = setInterval( function() {
-          that.move(ball);
-        } , 10);
+        this.intervalId = window.setInterval( this.move, 10, this.ball, this);
       }
 
       Ball.prototype = {
-        move: function(html){
-          if(this.left == 0) {
-            this.directionLeft = 1;
+        move: function(html, that){
+          if(that.left == 0) {
+            that.directionLeft = 1;
           }
-          if(this.left == width-ballDiam) {
-            this.directionLeft = -1;
+          if(that.left == width-ballDiam) {
+            that.directionLeft = -1;
           }
-          if(this.top == 0) {
-            this.directionTop = 1;
+          if(that.top == 0) {
+            that.directionTop = 1;
           }
-          if(this.top == height) {
+          if(that.top == height) {
             alert('Вы проиграли!');
             ballTop.moveOnStart(0,0,1,1);
             ballBottom.moveOnStart(1, height-ballDiam, 1, -1);
           }
-          if(this.top == (height - playerHeight - ballDiam)) {
-            if (this.left >= player.offsetLeft-ballDiam/2 && this.left <= player.offsetLeft+playerWidth+ballDiam/2 ) {
-              this.directionTop = -1;
+          if(that.top == (height - playerHeight - ballDiam)) {
+            if (that.left >= player.offsetLeft-ballDiam/2 && that.left <= player.offsetLeft+playerWidth+ballDiam/2 ) {
+              that.directionTop = -1;
             }
           }
-          this.left += this.directionLeft;
-          this.top += this.directionTop;
-          this.show(html);
+          that.left += that.directionLeft;
+          that.top += that.directionTop;
+          console.log('Элемент: '+html+'. Слева: '+that.left);
+          that.show(html, that);
         },
-        show: function(html){
-          html.style.left = this.left +'px';
-          html.style.top = this.top +'px';
+        show: function(html, that){
+          html.style.left = that.left +'px';
+          html.style.top = that.top +'px';
         },
         moveOnStart: function(left, top, directionLeft, directionTop){
           this.left = left;
@@ -67,14 +64,13 @@
           this.directionLeft = directionLeft;
           this.directionTop = directionTop;
         }
-      }
+      };
 
       function startGame() {
         width = document.body.clientWidth;
         height = document.body.clientHeight;
 
         playerElement = new Player('player');
-
         ballTop = new Ball('ballTop', 0, 0, 1, 1);
         ballBottom = new Ball('ballBottom', 1, height-ballDiam, 1, -1);
 
