@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <script>
       var ballTop, ballBottom;
-      var player;
+      var playerDOM, player;
       var width, height;
       
       function Player(playerId) {
@@ -11,9 +11,33 @@
         this.playerWidth = 290;
         playerHeight = 30;
 
-        player = document.getElementById(playerId);
-        player.style.width = this.playerWidth +'px';
-        player.style.height = playerHeight +'px';
+        playerDOM = document.getElementById(playerId);
+        playerDOM.style.width = this.playerWidth +'px';
+        playerDOM.style.height = playerHeight +'px';
+
+        this.playHandler = function(e) {
+          e = e || window.event;
+          console.log('');
+          var currentPosition = playerDOM.offsetLeft;
+          if (currentPosition >= step && e.keyCode === 37) {
+                playerDOM.style.left = currentPosition - step +'px';
+          } else if (e.keyCode === 37) {
+            playerDOM.style.left = 0 +'px';
+          }
+          if (currentPosition <= width - playerDOM.offsetWidth - step && e.keyCode === 39) {
+                playerDOM.style.left = currentPosition + step +'px';
+          } else if (e.keyCode === 39) {
+            playerDOM.style.left = width - playerDOM.offsetWidth +'px';
+          }
+          
+          return false;
+        }
+
+        console.log(this);
+        document.addEventListener('keydown', function(){
+          console.log(this);
+          this.playHandler();
+        });
       }
 
       function Ball(ballId, left, top, directionLeft, directionTop) {
@@ -44,7 +68,7 @@
             that.moveOnStart(that.left, that.top, that.directionLeft, that.directionTop);
           }
           if(that.top == (height - playerHeight - ballDiam)) {
-            if (that.left >= player.offsetLeft-ballDiam/2 && that.left <= player.offsetLeft+this.playerWidth+ballDiam/2 ) {
+            if (that.left >= playerDOM.offsetLeft-ballDiam/2 && that.left <= playerDOM.offsetLeft+player.playerWidth+ballDiam/2 ) {
               that.directionTop = -1;
             }
           }
@@ -68,26 +92,9 @@
         width = document.body.clientWidth;
         height = document.body.clientHeight;
 
-        playerElement = new Player('player');
+        player = new Player('player');
         ballTop = new Ball('ballTop', 0, 0, 1, 1);
         ballBottom = new Ball('ballBottom', 1, height-ballDiam, 1, -1);
-
-        document.onkeydown = function (e) {
-          e = e || window.event;
-          var currentPosition = player.offsetLeft;
-          if (currentPosition >= step && e.keyCode === 37) {
-                player.style.left = currentPosition - step +'px';
-          } else if (e.keyCode === 37) {
-            player.style.left = 0 +'px';
-          }
-          if (currentPosition <= width - player.offsetWidth - step && e.keyCode === 39) {
-                player.style.left = currentPosition + step +'px';
-          } else if (e.keyCode === 39) {
-            player.style.left = width - player.offsetWidth +'px';
-          }
-          
-          return false;
-        }
       }
 
       window.addEventListener('load', startGame);
