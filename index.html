@@ -33,10 +33,9 @@
           return false;
         }
 
-        console.log(this);
+        that = this;
         document.addEventListener('keydown', function(){
-          console.log(this);
-          this.playHandler();
+          that.playHandler();
         });
       }
 
