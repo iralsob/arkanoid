@@ -41,8 +41,7 @@
           }
           if(that.top == height) {
             alert('Вы проиграли!');
-            ballTop.moveOnStart(0,0,1,1);
-            ballBottom.moveOnStart(1, height-ballDiam, 1, -1);
+            that.moveOnStart(that.left, that.top, that.directionLeft, that.directionTop);
           }
           if(that.top == (height - playerHeight - ballDiam)) {
             if (that.left >= player.offsetLeft-ballDiam/2 && that.left <= player.offsetLeft+playerWidth+ballDiam/2 ) {
