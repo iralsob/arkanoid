@@ -25,11 +25,11 @@
 
         this.moveOnStart(left, top, directionLeft, directionTop);
 
-        this.intervalId = window.setInterval( this.move, 10, this.ball, this);
+        this.intervalId = window.setInterval( this.move, 10, this);
       }
 
       Ball.prototype = {
-        move: function(html, that){
+        move: function(that){
           if(that.left == 0) {
             that.directionLeft = 1;
           }
@@ -51,11 +51,11 @@
           }
           that.left += that.directionLeft;
           that.top += that.directionTop;
-          that.show(html, that);
+          that.show(that);
         },
-        show: function(html, that){
-          html.style.left = that.left +'px';
-          html.style.top = that.top +'px';
+        show: function(that){
+          that.ball.style.left = that.left +'px';
+          that.ball.style.top = that.top +'px';
         },
         moveOnStart: function(left, top, directionLeft, directionTop){
           this.left = left;
