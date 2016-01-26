@@ -50,7 +50,7 @@
         }
       }
 
-      window.onload = function() {
+      function startGame() {
         width = document.body.clientWidth;
         height = document.body.clientHeight;
 
@@ -60,21 +60,23 @@
         player.style.height = playerHeight+'px';
 
         ballTopDom = document.getElementById('ballTop');
-        ballBottomDom = document.getElementById('ballBottom');
         ballTopDom.style.width = ballDiam +'px';
-        ballBottomDom.style.width = ballDiam +'px';
         ballTopDom.style.height = ballDiam +'px';
+
+        ballBottomDom = document.getElementById('ballBottom');
+        ballBottomDom.style.width = ballDiam +'px';
         ballBottomDom.style.height = ballDiam +'px';
 
         ballTop = new Ball();
-        ballBottom = new Ball();
         topInterval = setInterval( function() {
           ballTop.move(ballTopDom);
         } , 10);
+        ballTop.moveOnStart(0,0,1,1);
+
+        ballBottom = new Ball();
         bottomInterval =  setInterval( function() {
           ballBottom.move(ballBottomDom);
         } , 10);
-        ballTop.moveOnStart(0,0,1,1);
         ballBottom.moveOnStart(1, height-ballDiam, 1, -1);
 
         document.onkeydown = function (e) {
@@ -93,6 +95,10 @@
           
           return false;
         }
+      }
+
+      window.onload = function() {
+        startGame();
       }
     </script>
     <style>
