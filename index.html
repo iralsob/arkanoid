@@ -5,13 +5,32 @@
       var ball, ballTop, ballBottom, topInterval, bottomInterval, ballDiam, ballTopDom, ballBottomDom;
       var player, playerWidth, playerHeight;
       var width, height;
+      
+      function Player(playerId) {
+        step = 60;
+        playerWidth = 290;
+        playerHeight = 30;
 
-      var step = 60;
-      ballDiam = 40;
-      playerWidth = 290;
-      playerHeight = 30;
+        player = document.getElementById(playerId);
+        player.style.width = playerWidth +'px';
+        player.style.height = playerHeight +'px';
 
-      function Ball() {}
+      }
+
+      function Ball(ballId, left, top, directionLeft, directionTop) {
+        ballDiam = 40;
+
+        ball = document.getElementById(ballId);
+        ball.style.width = ballDiam +'px';
+        ball.style.height = ballDiam +'px';
+
+        this.moveOnStart(left, top, directionLeft, directionTop);
+
+        that = this;
+        this.interval = setInterval( function() {
+          that.move(ball);
+        } , 10);
+      }
 
       Ball.prototype = {
         move: function(html){
@@ -54,30 +73,10 @@
         width = document.body.clientWidth;
         height = document.body.clientHeight;
 
-        player = document.getElementById('player');
-        player.style.left = player.offsetLeft;
-        player.style.width = playerWidth+'px';
-        player.style.height = playerHeight+'px';
+        playerElement = new Player('player');
 
-        ballTopDom = document.getElementById('ballTop');
-        ballTopDom.style.width = ballDiam +'px';
-        ballTopDom.style.height = ballDiam +'px';
-
-        ballBottomDom = document.getElementById('ballBottom');
-        ballBottomDom.style.width = ballDiam +'px';
-        ballBottomDom.style.height = ballDiam +'px';
-
-        ballTop = new Ball();
-        topInterval = setInterval( function() {
-          ballTop.move(ballTopDom);
-        } , 10);
-        ballTop.moveOnStart(0,0,1,1);
-
-        ballBottom = new Ball();
-        bottomInterval =  setInterval( function() {
-          ballBottom.move(ballBottomDom);
-        } , 10);
-        ballBottom.moveOnStart(1, height-ballDiam, 1, -1);
+        ballTop = new Ball('ballTop', 0, 0, 1, 1);
+        ballBottom = new Ball('ballBottom', 1, height-ballDiam, 1, -1);
 
         document.onkeydown = function (e) {
           e = e || window.event;
@@ -97,9 +96,7 @@
         }
       }
 
-      window.onload = function() {
-        startGame();
-      }
+      window.addEventListener('load', startGame);
     </script>
     <style>
       body {
