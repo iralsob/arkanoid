@@ -2,17 +2,17 @@
   <head>
     <meta charset="utf-8">
     <script>
-      var ball, ballTop, ballBottom, topInterval, bottomInterval, ballDiam, ballTopDom, ballBottomDom;
-      var player, playerWidth, playerHeight;
+      var ballTop, ballBottom;
+      var player;
       var width, height;
       
       function Player(playerId) {
         step = 60;
-        playerWidth = 290;
-        playerHeight = 30;
+        this.playerWidth = 290;
+        this.playerHeight = 30;
 
         player = document.getElementById(playerId);
-        player.style.width = playerWidth +'px';
+        player.style.width = this.playerWidth +'px';
         player.style.height = playerHeight +'px';
       }
 
@@ -44,7 +44,7 @@
             that.moveOnStart(that.left, that.top, that.directionLeft, that.directionTop);
           }
           if(that.top == (height - playerHeight - ballDiam)) {
-            if (that.left >= player.offsetLeft-ballDiam/2 && that.left <= player.offsetLeft+playerWidth+ballDiam/2 ) {
+            if (that.left >= player.offsetLeft-ballDiam/2 && that.left <= player.offsetLeft+this.playerWidth+ballDiam/2 ) {
               that.directionTop = -1;
             }
           }
